@@ -8,46 +8,42 @@
 import UIKit
 import Highcharts
 
-//FROM: https://www.highcharts.com/demo/ios/pie-donut
+//FROM: https://www.highcharts.com/demo/ios/line-time-series/brand-light
 
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let chartView = HIChartView(frame: view.bounds)
+        let chartView = HIChartView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 400))
+        chartView.theme = "brand-light"
         
         let options = HIOptions()
         
         let chart = HIChart()
-        chart.type = "pie"
+        chart.type = "area"
         options.chart = chart
         
         let title = HITitle()
-        title.text = "Amazon:<br> 919.02"
-        title.verticalAlign = "middle"
+        title.text = "Companies Chart"
+        title.verticalAlign = "top"
         options.title = title
         
         let subtitle = HISubtitle()
-        subtitle.text = "Donut Chart"
+        subtitle.text = "Area Chart"
         options.subtitle = subtitle
         
         
-        //MARK: - Legend
+        //MARK: - PlotOptions
         let plotOptions = HIPlotOptions()
-        plotOptions.pie = HIPie()
-        plotOptions.pie.showInLegend = true
+        plotOptions.area = HIArea()
+        plotOptions.area.fillColor = HIColor(linearGradient: ["x1": 1, "y1": 0, "x2:": 0, "y2": 1],
+                                                                          stops: [[0, "rgb(47,126,216)"], [1, "rgba(47,126,216,0)"]])
         options.plotOptions = plotOptions
         
-        let legend = HILegend()
-        legend.verticalAlign = "middle"
-        legend.y = 200
-        legend.width = 120
-        options.legend = legend
-        
-        let Companies = HIPie()
+        //MARK: - Label Prefix
+        let Companies = HIArea()
         Companies.name = "$"
-        Companies.size = "60%"
         
         //MARK: - Click Event Callback
         Companies.point = HIPoint()
@@ -57,13 +53,6 @@ class ViewController: UIViewController {
             print(context?.getProperty("this.name") ?? "")
             print(context?.getProperty("this.y") ?? "")
         }, properties: ["this.name", "this.y"])
-        
-        //MARK: - Data Labels
-        let dataLabelsBrowsers = HIDataLabels()
-        dataLabelsBrowsers.formatter = HIFunction(jsFunction: "function () { return this.y > 5 ? this.point.name : null; }")
-        dataLabelsBrowsers.color = HIColor(hexValue: "ffffff")
-        dataLabelsBrowsers.distance = -30
-        Companies.dataLabels = [dataLabelsBrowsers]
     
 
         //MARK: - Mockup Data
@@ -92,9 +81,6 @@ class ViewController: UIViewController {
             "y": 72.38,
             "color": "#f15c80"
         ]]
-        
-        //MARK: - Turns Pie into Donut
-        Companies.innerSize = 170
         
         options.series = [Companies]
         chartView.options = options
