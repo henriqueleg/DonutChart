@@ -25,20 +25,26 @@ class ViewController: UIViewController {
         options.chart = chart
         
         let title = HITitle()
-        title.text = "Companies Chart"
-        title.verticalAlign = "top"
+        title.useHTML = true
+        title.text = "<p style='margin: 0px;'> Portfolio Value </p> <p style='margin: 0px;'> $350.10 <p>"
+        title.align = "leading"
+        title.margin = 10
+        title.y = 50
         options.title = title
         
         let subtitle = HISubtitle()
-        subtitle.text = "Area Chart"
+        subtitle.useHTML = true
+        subtitle.text = "<p style='color:#34C759; background-color: rgba(52, 199, 89, 0.1); border-radius: 50px; padding: 10px; line-height: 10px;'> ^ $25.10 (6.09%) </p>"
+        subtitle.align = "leading"
         options.subtitle = subtitle
         
         
         //MARK: - PlotOptions
         let plotOptions = HIPlotOptions()
         plotOptions.area = HIArea()
+        plotOptions.area.lineColor = HIColor(hexValue: "34C759")
         plotOptions.area.fillColor = HIColor(linearGradient: ["x1": 1, "y1": 0, "x2:": 0, "y2": 1],
-                                                                          stops: [[0, "rgb(47,126,216)"], [1, "rgba(47,126,216,0)"]])
+                                                                          stops: [[0, "rgb(52,199,89, 0.2)"], [1, "rgba(52,199,89, 0)"]])
         options.plotOptions = plotOptions
         
         //MARK: - Label Prefix
